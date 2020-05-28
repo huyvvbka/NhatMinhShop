@@ -1,2 +1,2 @@
 # NhatMinhShop
-Ứng dụng cho shop bán giày
+Demo app
