@@ -1,0 +1,6 @@
+module Pods_NhatMinhShop_NhatMinhShopTests {
+  umbrella header "Pods-NhatMinhShop-NhatMinhShopTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

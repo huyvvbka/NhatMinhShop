@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>268120434061-ss6dsu6klq0c5p1mh20tfk6cv71nimsc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.268120434061-ss6dsu6klq0c5p1mh20tfk6cv71nimsc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA_sZ4FM_P_sqOqOzMa7d8dfjheGAHRzPk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>268120434061</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.NhatMinhShop</string>
+	<key>PROJECT_ID</key>
+	<string>nhatminhshop-2f127</string>
+	<key>STORAGE_BUCKET</key>
+	<string>nhatminhshop-2f127.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:268120434061:ios:9835747fa36ece8bd549c4</string>
+	<key>DATABASE_URL</key>
+	<string>https://nhatminhshop-2f127.firebaseio.com</string>
+</dict>
+</plist>
