@@ -1,32 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableHighlight, ScrollView } from 'react-native';
 import Slideshow from 'react-native-image-slider-show';
-import {getCategoryName} from '../../data/MockDataAPI'
-export default RecipesScreen = ({route, navigation}) => {
-  const {item} = route.params;
+import {getCategoryName} from '../../data/MockDataAPI';
+import {Navigation} from 'react-native-navigation';
+export default RecipesScreen = (props) => {
   const [position, setPosition] = useState(1);
-  const ingredients = item.ingredients;
+  const ingredients = props.ingredients;
+  const photos = [];
+  useEffect(() => {
+    let length = props.photosArray.length;
+    for(let i = 0; i < length; i++) {
+      let photo = {url: props.photosArray[i]};
+      photos.push(photo);
+    }
+  })
   return (
     <View style={styles.container}>
       <Slideshow
         style={styles.slider}
-        dataSource={item.photosArray}
+        dataSource={photos}
         position={position}
         onPositionChanged={setPosition}
         arrowSize={0}
       />
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.category}>{getCategoryName(item.categoryId).toUpperCase()}</Text>
+      <Text style={styles.title}>{props.title}</Text>
+      <Text style = {styles.category} >{getCategoryName(props.category)}</Text>
       <View style={styles.informationContainer}>
       <Image source={require('../../images/icons/time.png')}/>
-      <Text style={styles.time}>{item.time} minutes</Text>
+      <Text style={styles.time}>{props.time} minutes</Text>
       </View>
       <TouchableHighlight 
-        style={styles.button} onPress={() => {navigation.navigate('INGREDIENTS', {ingredients})}}>
+        style={styles.button} onPress={() => {
+          Navigation.push(props.componentId, {
+            component : {
+              name: 'IngredientDetail',
+              passProps: {
+                ingredients: ingredients
+              },
+              options: {
+                topBar: {
+                  title: {
+                    text: 'Ingredient detail'
+                  }
+                }
+              }
+            }
+          })
+        }}>
         <Text style={{color: '#2cd18a', fontSize: 16}}>View Ingredient</Text>
       </TouchableHighlight>
       <ScrollView>
-        <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.description}>{props.description}</Text>
       </ScrollView>
     </View>
   );

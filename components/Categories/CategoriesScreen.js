@@ -9,10 +9,23 @@ import {
 } from 'react-native';
 import { categories } from '../../data/dataArrays';
 import { getNumberOfRecipes } from '../../data/MockDataAPI';
+import {Navigation} from 'react-native-navigation';
 
-export default CategoriesScreen = ({navigation}) => {
+export default CategoriesScreen = (props) => {
   renderCategory = ({ item }) => (
-    <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => {navigation.navigate('HOME')}}>
+    <TouchableHighlight underlayColor='rgba(73,182,77,1,0.9)' onPress={() => {
+      // navigation.navigate('HOME')
+      Navigation.push(props.componentId, {
+        component: {
+          name: 'Home',
+          topBar: {
+            title: {
+              text: 'Home',
+            }
+          }
+        }
+      })
+    }}>
       <View style={styles.categoriesItemContainer}>
         <Image style={styles.categoriesPhoto} source={{ uri: item.photo_url }} />
         <Text style={styles.categoriesName}>{item.name}</Text>
@@ -29,6 +42,17 @@ export default CategoriesScreen = ({navigation}) => {
       />
     </View>
   );
+}
+
+CategoriesScreen.options = {
+  topBar: {
+    title: {
+      text: 'Category'
+    }
+  },
+  bottomTab: {
+    text: 'Category'
+  }
 }
 
 const styles = StyleSheet.create({

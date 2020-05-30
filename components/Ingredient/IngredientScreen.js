@@ -2,15 +2,38 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, Image, StyleSheet,FlatList, TouchableHighlight } from 'react-native';
 import {getRecipesByIngredient, getCategoryName, getIngredientUrl} from '../../data/MockDataAPI';
 const {width, height} = Dimensions.get('window');
-export default IngredientScreen = ({route, navigation}) => {
-  const {name} = route.params;
-  const {ingredient} = route.params;
-  const recipes = getRecipesByIngredient(ingredient);
+import {Navigation} from 'react-native-navigation'
+export default IngredientScreen = (props) => {
+
+  const recipes = getRecipesByIngredient(props.ingredient);
 
   renderRecipes = ({ item }) => (
     <TouchableHighlight 
       underlayColor = 'rgba(73,182,77,1,0.9)'
-      onPress = {() => {navigation.navigate('RECIPES', {item})}} 
+      onPress = {() => {
+        // navigation.navigate('RECIPES', {item})
+        Navigation.push(props.componentId, {
+          component: {
+            name: 'Recipes',
+              passProps: {
+                title: item.title,
+                category: item.categoryId,
+                ingredients: item.ingredients,
+                photosArray: item.photosArray,
+                time: item.time,
+                description: item.description
+              },
+              options: {
+                topBar: {
+                  title: {
+                    text: 'Recipes'
+                  }
+                }
+              }
+          }
+
+        })
+      }} 
     >
       <View style={styles.container}>
         <Image style={styles.photo} source={{ uri: item.photo_url }} />
@@ -24,10 +47,10 @@ export default IngredientScreen = ({route, navigation}) => {
       <View style={{borderBottomWidth: 0.4, marginBottom: 10, borderBottomColor: 'grey'}}>
         <Image 
           style={{width: width, height: 250, alignSelf: 'center'}}
-          source={{uri: getIngredientUrl(ingredient)}}
+          source={{uri: getIngredientUrl(props.ingredient)}}
         />
       </View>
-      <Text style={{marginLeft: 10, fontSize: 14, fontWeight: 'bold'}}>Recipes with {name}:</Text>
+      <Text style={{marginLeft: 10, fontSize: 14, fontWeight: 'bold'}}>Recipes with {props.name}:</Text>
       <FlatList
         vertical
         showsVerticalScrollIndicator={false}

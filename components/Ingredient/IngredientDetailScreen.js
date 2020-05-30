@@ -4,18 +4,36 @@ import {
   getIngredientName,
   getAllIngredients
 } from '../../data/MockDataAPI';
-const {width, height} = Dimensions.get('window');
-export default IngredientDetailScreen = ({route, navigation}) => {
-  const {ingredients} = route.params;
-  const ingredientsArray = getAllIngredients(ingredients);
+import {Navigation} from 'react-native-navigation';
 
+const {width, height} = Dimensions.get('window');
+export default IngredientDetailScreen = (props) => {
+  const ingredients = props.ingredients;
+  const ingredientsArray = getAllIngredients(ingredients);
   renderIngredient = ({ item }) => (
     <TouchableHighlight 
       TouchableHighlight underlayColor = 'rgba(73,182,77,1,0.9)'
       onPress={() => {
         let name = getIngredientName(item[0].ingredientId);
         let ingredient = item[0].ingredientId;
-        navigation.navigate('INGREDIENT', { ingredient, name });
+        Navigation.push(props.componentId, {
+          component : {
+            name: 'Ingredient',
+            passProps: {
+              name,
+              ingredient
+            },
+            options : {
+              topBar: {
+                title: {
+                  text: 'Ingredient'
+                }
+              }
+            }
+          }
+        })
+        // navigation.navigate('INGREDIENT', { ingredient, name });
+
       }}
     >
       <View style={styles.container}>

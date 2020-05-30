@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native';
 import firebase from 'react-native-firebase';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import {Navigation} from 'react-native-navigation';
 
-export default LoginScreen = ({navigation}) => {
+export default LoginScreen = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -11,7 +12,18 @@ export default LoginScreen = ({navigation}) => {
     firebase.auth().signInWithEmailAndPassword(email.trim(), password.trim())
     .then(() => {
       let name =firebase.auth().currentUser.displayName;
-      navigation.navigate((name === null) ? 'UPDATE_PROFILE' : 'HOME');
+      let nameScreen = (name === null) ? 'UpdateProfile' : 'Home';
+      Navigation.push(props.componentId, {
+        component: {
+          name: 'UpdateProfile',
+          options: {
+            topBar: {
+              visible: false
+            }
+          }
+        }
+      })
+      // navigation.navigate((name === null) ? 'UPDATE_PROFILE' : 'HOME');
     }).catch((error) => {
       alert('Login failed with error: ' + error.message);
     });
@@ -63,15 +75,35 @@ export default LoginScreen = ({navigation}) => {
           <TouchableHighlight style={styles.facebookButton} onPress={loginWithFacebook}>
             <Text style={styles.textButton}>Login width Facebook</Text>
           </TouchableHighlight>
+          <TouchableHighlight onPress={() => {Navigation.push(props.componentId, {
+            component: {
+              name: 'Signup',
+              options: {
+                topBar: {
+                  title: {
+                    text: 'Signup'
+                  }
+                }
+              }
+            }
+          })}}>
+            <Text>Your not have account?</Text>
+          </TouchableHighlight>
         </View>
       </View>
     </TouchableWithoutFeedback>
   );
 }
 
-LoginScreen.navigationOptions = {
-  headerShown: false
+LoginScreen.options = {
+  topBar: {
+    visible: false
+  }
 }
+
+// LoginScreen.navigationOptions = {
+//   headerShown: false
+// }
 
 const styles = StyleSheet.create({
   title: {

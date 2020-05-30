@@ -3,7 +3,45 @@ import { View, Text, Animated, Dimensions, StyleSheet } from 'react-native';
 import {COLOR_BACKGROUND, COLOR_PINK_MEDIUM} from '../colors';
 let {height, width} = Dimensions.get('window');
 import firebase from 'react-native-firebase';
-export default SplashScreen = ({navigation}) => {
+import {Navigation} from 'react-native-navigation';
+const loginRoot = {
+  root: {
+    stack: {
+      children: [{
+        component: {
+          name: 'Login'
+        }
+      }]
+    }
+  }
+}
+
+const mainRoot = {
+  root: {
+    bottomTabs: {
+      children: [{
+          stack: {
+            children: [{
+              component: {
+                name: 'Home'
+              }
+            }]
+          }
+        },
+        {
+          stack: {
+            children: [{
+              component: {
+                name: 'Category'
+              }
+            }]
+          }
+        }
+      ]
+    }
+  }
+}
+export default SplashScreen = (props) => {
   const [logoOpacity, setLogoOpacity] = useState(new Animated.Value(0));
   const [titleMarginTop, setTitleMarginTop] = useState(new Animated.Value(height/2));
 
@@ -19,10 +57,9 @@ export default SplashScreen = ({navigation}) => {
         duration: 1000,
         useNativeDriver: false,
       })
-    ]).start(() => {
-      firebase.auth().onAuthStateChanged(user => {
-        navigation.navigate(user ? 'HOME' : 'LOGIN')
-      })
+    ]).start(async () => {
+      let user = await firebase.auth().currentUser;
+      Navigation.setRoot(user ? mainRoot : loginRoot)
     });
   });
 
@@ -39,9 +76,14 @@ export default SplashScreen = ({navigation}) => {
   );
 }
 
-SplashScreen.navigationOptions = {
-  headerShown: false
+SplashScreen.options = {
+  topBar: {
+    visible: false
+  }
 }
+// SplashScreen.navigationOptions = {
+//   headerShown: false
+// }
 
 const styles = StyleSheet.create({
   container: {

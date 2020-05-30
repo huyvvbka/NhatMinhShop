@@ -10,12 +10,36 @@ import {
 } from 'react-native';
 import { recipes } from '../../data/dataArrays';
 import {getCategoryName} from '../../data/MockDataAPI';
+import {Navigation} from 'react-native-navigation';
 
-export default HomeScreen = ({navigation}) => {
+export default HomeScreen = (props) => {
   renderRecipes = ({ item }) => (
     <TouchableHighlight 
       underlayColor = 'rgba(73,182,77,1,0.9)'
-      onPress = {() => {navigation.navigate('RECIPES', {item})}}
+      onPress = {() => {
+        Navigation.push(props.componentId, {
+          component: {
+            name: 'Recipes',
+            passProps: {
+              title: item.title,
+              category: item.categoryId,
+              ingredients: item.ingredients,
+              photosArray: item.photosArray,
+              time: item.time,
+              description: item.description
+            },
+            options: {
+              topBar: {
+                title: {
+                  text: 'Recipes'
+                }
+              }
+            }
+          }
+        });
+        // navigation.navigate('RECIPES', {item})
+        }
+      }
     >
       <View style={styles.container}>
         <Image style={styles.photo} source={{ uri: item.photo_url }} />
@@ -35,6 +59,20 @@ export default HomeScreen = ({navigation}) => {
       />
     </View>
   );
+}
+
+HomeScreen.options = {
+  topBar: {
+    title: {
+      text: 'Home'
+    },
+    bottomTab: {
+      text: 'Home'
+    }
+  },
+  bottomTab: {
+    text: 'Home'
+  }
 }
 
 console.disableYellowBox = true;
