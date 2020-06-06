@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard, 
 import firebase from 'react-native-firebase';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
 import {Navigation} from 'react-native-navigation';
+import {mainRoot} from './Stack';
 
 export default LoginScreen = (props) => {
   const [email, setEmail] = useState('');
@@ -11,9 +12,8 @@ export default LoginScreen = (props) => {
   login = () => {
     firebase.auth().signInWithEmailAndPassword(email.trim(), password.trim())
     .then(() => {
-      let name =firebase.auth().currentUser.displayName;
-      let nameScreen = (name === null) ? 'UpdateProfile' : 'Home';
-      Navigation.push(props.componentId, {
+      let user = firebase.auth().currentUser;
+      user.displayName === null ? (Navigation.push(props.componentId, {
         component: {
           name: 'UpdateProfile',
           options: {
@@ -22,8 +22,9 @@ export default LoginScreen = (props) => {
             }
           }
         }
-      })
-      // navigation.navigate((name === null) ? 'UPDATE_PROFILE' : 'HOME');
+      })) : (
+        Navigation.setRoot(mainRoot)
+      )
     }).catch((error) => {
       alert('Login failed with error: ' + error.message);
     });

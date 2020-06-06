@@ -9,7 +9,6 @@
 // AppRegistry.registerComponent(appName, () => App);
 
 import {Navigation} from "react-native-navigation";
-import App from './App';
 import SplashScreen from './components/SplashScreen';
 import LoginScreen from './components/LoginScreen';
 import SignupScreen from './components/SignupScreen';
@@ -19,8 +18,9 @@ import CategoriesScreen from './components/Categories/CategoriesScreen';
 import RecipesScreen from './components/Recipes/RecipesScreen';
 import IngredientDetailScreen from './components/Ingredient/IngredientDetailScreen';
 import IngredientScreen from './components/Ingredient/IngredientScreen';
+import SettingScreen from './components/Settings/SettingScreen'
+import {splashRoot} from './components/Stack';
 
-Navigation.registerComponent('com.myApp.WelcomeScreen', () => App);
 Navigation.registerComponent('Splash', () => SplashScreen);
 Navigation.registerComponent('Login', () => LoginScreen);
 Navigation.registerComponent('Signup', () => SignupScreen);
@@ -30,53 +30,12 @@ Navigation.registerComponent('Category', () => CategoriesScreen);
 Navigation.registerComponent('Recipes', () => RecipesScreen);
 Navigation.registerComponent('IngredientDetail', () => IngredientDetailScreen);
 Navigation.registerComponent('Ingredient', () => IngredientScreen);
-
-const splashRoot = {
-  root: {
-    stack: {
-      children: [
-        {
-          component: {
-            name: 'Splash'
-          }
-        }
-      ]
-    }
-  }
-}
-
-const loginRoot = {
-  root: {
-    stack: {
-      children: [
-        {
-          component: {
-            name: 'Login'
-          }
-        }
-      ]
-    }
-  }
-}
-
-const mainRoot = {
-  root: {
-    stack: {
-      children: [
-        {
-          component: {
-            name: 'Home'
-          }
-        }
-      ]
-    }
-  }
-}
+Navigation.registerComponent('Setting', () => SettingScreen);
 
 Navigation.events().registerAppLaunchedListener(async () => {
   Navigation.setDefaultOptions({
     statusBar: {
-      backgroundColor: 'rgb(255, 90, 102'
+      backgroundColor: 'rgb(255, 90, 102)'
     },
     topBar: {
       title: {

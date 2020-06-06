@@ -11,8 +11,9 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import firebase from 'react-native-firebase';
+import {Navigation} from 'react-native-navigation';
 
-export default UpdateProfileScreen = ({navigation}) => {
+export default UpdateProfileScreen = (props) => {
   const refStore = firebase.storage().ref();
   const imageRef = refStore.child('userAvatar');
   const user = firebase.auth().currentUser;
@@ -49,7 +50,42 @@ export default UpdateProfileScreen = ({navigation}) => {
         displayName: displayName,
         photoURL: response.downloadURL
       }).then(() => {
-        alert('Profile updated successfully');
+        Navigation.setRoot(
+          {
+            root: {
+              bottomTabs: {
+                children: [{
+                    stack: {
+                      children: [{
+                        component: {
+                          name: 'Home'
+                        }
+                      }]
+                    }
+                  },
+                  {
+                    stack: {
+                      children: [{
+                        component: {
+                          name: 'Category'
+                        }
+                      }]
+                    }
+                  },
+                  {
+                    stack: {
+                      children: [{
+                        component: {
+                          name: 'Setting'
+                        },
+                      }]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        )
       }).catch((error) => {{
         setErrorMessage(error.message);
       }})
@@ -94,10 +130,13 @@ export default UpdateProfileScreen = ({navigation}) => {
   );
 }
 
-UpdateProfileScreen.navigationOptions = {
-  headerShown: false
+UpdateProfileScreen.options = {
+  topBar: {
+    title: {
+      text: 'Update profile',
+    }
+  }
 }
-
 const styles = StyleSheet.create({
   title: {
     marginTop: 80,
